@@ -1,0 +1,13 @@
+server:
+  port: ${SERVER_PORT:8008}
+
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+
+file:
+  logger:
+    handler: ${Logger:sl4j}
+    enable: true
+  path:
+    upload: ${uplaod_path:D://}
