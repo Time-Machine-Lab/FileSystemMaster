@@ -2,20 +2,18 @@ package com.example.rvc_filesystem.controller;
 
 import com.example.rvc_filesystem.common.Result;
 import com.example.rvc_filesystem.common.log.AbstractLogger;
-import com.example.rvc_filesystem.pojo.Chunk;
+import com.example.rvc_filesystem.pojo.vo.ChunkVO;
+import com.example.rvc_filesystem.pojo.vo.CommonFileVO;
 import com.example.rvc_filesystem.service.FileService;
 import com.example.rvc_filesystem.util.FileUtils;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.file.Files;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @Description fileUploadController类
@@ -38,13 +36,13 @@ public class UploadController {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public Result<?> upload(@RequestBody MultipartFile file,@RequestParam("path")String savePath){
-        String filename = file.getOriginalFilename();
-        String size = String.valueOf(file.getSize());
-        fileUtils.createFolderIfAbenset(savePath);
-        File loacalFile = new File(savePath + filename);
+    public Result<?> upload(CommonFileVO commonFileVO){
+        String filename = commonFileVO.getFile().getOriginalFilename();
+        String size = String.valueOf(commonFileVO.getFile().getSize());
+        fileUtils.createFolderIfAbenset(commonFileVO.getSavePath());
+        File loacalFile = new File(commonFileVO.getSavePath() + filename);
         try {
-            file.transferTo(loacalFile);
+            commonFileVO.getFile().transferTo(loacalFile);
             Date date = new Date(System.currentTimeMillis());
             logger.info("filename %s",filename);
             logger.info("size %s",size);
@@ -63,9 +61,9 @@ public class UploadController {
      */
     @PostMapping("/chunkUpload")
     @ResponseBody
-    public Result<?> upload(Chunk chunk){
-        fileService.uploadChunk(chunk);
-        return Result.success();
+    public Result<?> upload(ChunkVO chunk){
+        Map map = fileService.chunkUpload(chunk);
+        return Result.success(map);
     }
 
 }

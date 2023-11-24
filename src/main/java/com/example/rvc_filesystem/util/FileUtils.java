@@ -52,4 +52,7 @@ public class FileUtils {
         return folder;
     }
 
+    public Integer translateByteToMB(Long b){
+        return Math.toIntExact(b / (1024 * 1024));
+    }
 }
