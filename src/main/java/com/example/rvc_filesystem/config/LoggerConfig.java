@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class LoggerConfig {
 
     @Value("${file.logger.handler}")
-    private String Logger;
+    private String logger;
 
     @Value("${file.logger.enable}")
     private boolean enable;

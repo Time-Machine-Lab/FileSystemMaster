@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8008}
+  port: ${SERVER_PORT:8080}
 
 spring:
   profiles:
@@ -7,7 +7,5 @@ spring:
 
 file:
   logger:
-    handler: ${Logger:sl4j}
+    handler: ${Logger:slf4j}
     enable: true
-  path:
-    upload: ${uplaod_path:D://}

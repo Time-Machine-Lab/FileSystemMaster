@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 @Component
 public class AbstractLogger {
 
-    @Resource(name="${review.logger.handler}")
+    @Resource(name="${file.logger.handler}")
     private BaseLoggerInterface loggerHandler;
 
     public void info(String msg,Object... args){
