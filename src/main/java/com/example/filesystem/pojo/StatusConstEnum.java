@@ -19,7 +19,17 @@ public enum StatusConstEnum {
     /**
      * 系统异常
      */
-    SYSTEM_ERROR(500, "系统异常");
+    SYSTEM_ERROR(500, "系统异常"),
+
+    /**
+     * OSS文件下载失败
+     */
+    OSS_FILE_UPLOAD_ERROR(501,"文件上传至OSS失败"),
+
+    /**
+     * 获取bucket错误
+     */
+    QUERY_BUCKET_ERROR(502,"bucket获取失败");
 
     /**
      * 状态码

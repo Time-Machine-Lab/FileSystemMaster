@@ -9,3 +9,6 @@ file:
   logger:
     handler: ${Logger:slf4j}
     enable: true
+
+oss:
+  handler: ${OSSHandler:aliyun}

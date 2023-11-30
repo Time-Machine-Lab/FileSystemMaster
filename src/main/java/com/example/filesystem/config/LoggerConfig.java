@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Data
 @Configuration
 @Component
-@ConfigurationProperties(prefix = "system")
 public class LoggerConfig {
 
     @Value("${file.logger.handler}")
