@@ -1,4 +1,4 @@
-package com.example.rvc_filesystem.pojo.vo;
+package com.example.filesystem.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChunkVO {
+public class Chunk {
 
     /*
-     * 分块文件md5
+     * 文件总md5
      */
     private String md5;
 

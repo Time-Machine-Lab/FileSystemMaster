@@ -1,12 +1,12 @@
-package com.example.rvc_filesystem.common;
+package com.example.filesystem.common;
 
-import com.example.rvc_filesystem.pojo.StatusConstEnum;
+import com.example.filesystem.pojo.StatusConstEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 
-import static com.example.rvc_filesystem.pojo.StatusConstEnum.SUCCESS;
-import static com.example.rvc_filesystem.pojo.StatusConstEnum.SYSTEM_ERROR;
+import static com.example.filesystem.pojo.StatusConstEnum.SUCCESS;
+import static com.example.filesystem.pojo.StatusConstEnum.SYSTEM_ERROR;
 
 /**
  * @Description

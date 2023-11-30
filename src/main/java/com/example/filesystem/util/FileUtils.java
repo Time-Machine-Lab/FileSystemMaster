@@ -1,6 +1,6 @@
-package com.example.rvc_filesystem.util;
+package com.example.filesystem.util;
 
-import com.example.rvc_filesystem.common.log.AbstractLogger;
+import com.example.filesystem.common.log.AbstractLogger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

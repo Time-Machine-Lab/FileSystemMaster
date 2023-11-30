@@ -1,4 +1,4 @@
-package com.example.rvc_filesystem.pojo;
+package com.example.filesystem.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

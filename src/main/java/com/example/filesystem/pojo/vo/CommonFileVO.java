@@ -1,4 +1,4 @@
-package com.example.rvc_filesystem.pojo.vo;
+package com.example.filesystem.pojo.vo;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

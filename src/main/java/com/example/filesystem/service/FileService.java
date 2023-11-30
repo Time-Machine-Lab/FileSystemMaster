@@ -1,8 +1,8 @@
-package com.example.rvc_filesystem.service;
+package com.example.filesystem.service;
 
-import com.example.rvc_filesystem.common.log.AbstractLogger;
-import com.example.rvc_filesystem.pojo.vo.ChunkVO;
-import com.example.rvc_filesystem.util.FileUtils;
+import com.example.filesystem.common.log.AbstractLogger;
+import com.example.filesystem.pojo.vo.ChunkVO;
+import com.example.filesystem.util.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 

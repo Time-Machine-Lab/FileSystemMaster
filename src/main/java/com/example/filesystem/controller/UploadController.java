@@ -1,13 +1,12 @@
-package com.example.rvc_filesystem.controller;
+package com.example.filesystem.controller;
 
-import com.example.rvc_filesystem.common.Result;
-import com.example.rvc_filesystem.common.log.AbstractLogger;
-import com.example.rvc_filesystem.pojo.vo.ChunkVO;
-import com.example.rvc_filesystem.pojo.vo.CommonFileVO;
-import com.example.rvc_filesystem.service.FileService;
-import com.example.rvc_filesystem.util.FileUtils;
+import com.example.filesystem.common.Result;
+import com.example.filesystem.common.log.AbstractLogger;
+import com.example.filesystem.pojo.vo.ChunkVO;
+import com.example.filesystem.pojo.vo.CommonFileVO;
+import com.example.filesystem.service.FileService;
+import com.example.filesystem.util.FileUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.example.rvc_filesystem.config;
+package com.example.filesystem.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

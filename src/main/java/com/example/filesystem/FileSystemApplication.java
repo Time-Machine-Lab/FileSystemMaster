@@ -1,13 +1,13 @@
-package com.example.rvc_filesystem;
+package com.example.filesystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RvcFileSystemApplication {
+public class FileSystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RvcFileSystemApplication.class, args);
+        SpringApplication.run(FileSystemApplication.class, args);
     }
 
 }
