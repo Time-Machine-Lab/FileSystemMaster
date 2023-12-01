@@ -33,7 +33,7 @@ public class LocalFileStrategy extends FileStrategy {
     public <T extends CommonFileVO> String download(T commonFileVO) {
         SingleFile singleFile = fileMapper.selectById(commonFileVO.getFileId());
         String fileType = singleFile.getOriginName().split("\\.")[1];
-        return singleFile.getPath()+singleFile.getMd5()+"."+fileType;
+        return singleFile.getPath()+"/"+singleFile.getMd5()+"."+fileType;
     }
 
     @Override

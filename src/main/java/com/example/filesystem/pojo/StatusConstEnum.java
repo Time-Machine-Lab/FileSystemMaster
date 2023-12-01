@@ -2,6 +2,7 @@ package com.example.filesystem.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @Description

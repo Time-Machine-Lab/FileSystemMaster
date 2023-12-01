@@ -15,5 +15,5 @@ import lombok.NoArgsConstructor;
 public class OSSFileVO extends CommonFileVO{
 
     private String bucket;
-    private boolean isPrivate;
+    private String isPrivate;
 }

@@ -7,13 +7,14 @@ import com.aliyun.oss.model.GeneratePresignedUrlRequest;
 import com.example.filesystem.common.BaseException;
 import com.example.filesystem.common.log.AbstractLogger;
 import com.example.filesystem.core.oss.OSSFileOperatorInterface;
-import com.example.filesystem.core.strategy.FileStrategy;
+import com.example.filesystem.mapper.FileBucketMapper;
 import com.example.filesystem.mapper.FileMapper;
+import com.example.filesystem.pojo.FileBucket;
 import com.example.filesystem.pojo.SingleFile;
 import com.example.filesystem.pojo.StatusConstEnum;
-import com.example.filesystem.pojo.vo.OSSFileDownloadVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -34,6 +35,9 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     AliyunConfig aliyunConfig;
     @Resource
     FileMapper fileMapper;
+    @Resource
+    FileBucketMapper fileBucketMapper;
+    @Transactional
     @Override
     public String uploadFile(OSSFileVO ossFileVO) {
         String[] endpoints = aliyunConfig.getEndpoints();
@@ -53,13 +57,18 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
             OSSClient ossClient = new OSSClient(uploadEndpoint, accessKeyId, accessKeySecret);
             InputStream inputStream = ossFileVO.getFile().getInputStream();
             String fileName = ossFileVO.getMd5();
-            fileName = ossFileVO.getSavePath()+"/"+fileName;
+            String fileType = ossFileVO.getFile().getOriginalFilename().split("\\.")[1];
+            fileName = ossFileVO.getSavePath()+"/"+fileName+"."+fileType;
             ossClient.putObject(uploadBucket,fileName,inputStream);
             SingleFile singleFile = new SingleFile();
             singleFile.setMd5(ossFileVO.getMd5());
             singleFile.setPath(ossFileVO.getSavePath());
             singleFile.setOriginName(ossFileVO.getFile().getOriginalFilename());
             fileMapper.insert(singleFile);
+            FileBucket fileBucket = new FileBucket();
+            fileBucket.setId(String.valueOf(singleFile.getId()));
+            fileBucket.setBucket(uploadBucket);
+            fileBucketMapper.insert(fileBucket);
             return "https://"+uploadBucket+"."+uploadEndpoint+"/"+fileName;
         } catch (IOException e) {
             logger.debug(e.getMessage(),e);
@@ -68,7 +77,7 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     }
 
     @Override
-    public String downloadFile(OSSFileDownloadVO ossFileVO) {
+    public String downloadFile(OSSFileVO ossFileVO) {
 
         String accessKeyId = aliyunConfig.getAccessKeyId();
         String accessKeySecret = aliyunConfig.getAccessKeySecret();
@@ -85,8 +94,9 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
         try {
             SingleFile singleFile = fileMapper.selectById(ossFileVO.getFileId());
             String fileName = singleFile.getMd5();
-            fileName = singleFile.getPath()+fileName;
-            if(ossFileVO.isPrivate()){
+            String fileType = singleFile.getOriginName().split("\\.")[1];
+            fileName = singleFile.getPath()+"/"+fileName+"."+fileType;
+            if("true".equals(ossFileVO.getIsPrivate())){
                 Date expiration = new Date(new Date().getTime() + 3600 * 1000); // 1小时后过期
                 GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket,fileName);
                 request.setExpiration(expiration);

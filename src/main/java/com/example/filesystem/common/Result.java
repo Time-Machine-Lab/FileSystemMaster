@@ -1,7 +1,9 @@
 package com.example.filesystem.common;
 
 import com.example.filesystem.pojo.StatusConstEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -14,6 +16,8 @@ import static com.example.filesystem.pojo.StatusConstEnum.SYSTEM_ERROR;
  * @Date 2023/11/23 19:36
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Result<T> implements Serializable {
 
     /**
@@ -35,6 +39,9 @@ public class Result<T> implements Serializable {
      * 返回数据
      */
     private T data;
+
+    public Result(Integer code, String s) {
+    }
 
     public static <T> Result<T> success() {
         return restResult(true, null, SUCCESS.getCode(), SUCCESS.getDesc());

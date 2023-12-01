@@ -1,6 +1,5 @@
 package com.example.filesystem.core.oss;
 
-import com.example.filesystem.pojo.vo.OSSFileDownloadVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
 
 /**
@@ -12,6 +11,6 @@ public interface OSSFileOperatorInterface {
 
     String uploadFile(OSSFileVO ossFileVO);
 
-    String downloadFile(OSSFileDownloadVO ossFileVO);
+    String downloadFile(OSSFileVO ossFileVO);
 
 }

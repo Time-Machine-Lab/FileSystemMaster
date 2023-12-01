@@ -1,10 +1,14 @@
 package com.example.filesystem.controller;
 
-import com.example.filesystem.core.oss.AbstractOSS;
-import com.example.filesystem.pojo.vo.OSSFileDownloadVO;
+import com.example.filesystem.common.Result;
+import com.example.filesystem.core.oss.AbstractOSSFileStrategy;
 import com.example.filesystem.pojo.vo.OSSFileVO;
+import org.apache.tomcat.jni.OS;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * @Description
@@ -13,6 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping("/file/oss")
 @RestController
-public class OSSOperatorController extends FileController<OSSFileVO, AbstractOSS>{
+public class OSSOperatorController {
+
+    @Resource
+    AbstractOSSFileStrategy strategy;
+
+    @PostMapping("/upload")
+    public Result<?> upload(OSSFileVO commonFileVO){
+        String res = strategy.upload(commonFileVO);
+        return Result.success(res);
+    }
+
+    @PostMapping("/download")
+    public Result<?> download(OSSFileVO commonFileVO){
+        String res = strategy.download(commonFileVO);
+        return Result.success(res);
+    }
 
 }

@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: ${ACTIVE_PROFILE:dev}
+    active: ${ACTIVE_PROFILE:test}
 
 file:
   logger:
