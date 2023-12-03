@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * @Description
+ * @Description 抽象OSS策略
  * @Author welsir
  * @Date 2023/11/30 17:27
  */
