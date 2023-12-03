@@ -3,7 +3,7 @@ package com.example.filesystem.controller;
 import com.example.filesystem.common.Result;
 import com.example.filesystem.core.local.LocalFileStrategy;
 import com.example.filesystem.pojo.vo.CommonFileVO;
-import com.example.filesystem.pojo.vo.OSSFileVO;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
