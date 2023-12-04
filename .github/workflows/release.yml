@@ -9,6 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    uses:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -32,7 +33,6 @@ jobs:
           
           env=""
           module=""
-          module_type=""
           version=""
           skip=""
           docker_env=""
@@ -40,10 +40,6 @@ jobs:
           
           if [[ "$commit_message" =~ -e:([^\ ]*) ]]; then
           env="${BASH_REMATCH[1]}"
-          fi
-          
-          if [[ "$commit_message" =~ -type:([^\ ]*) ]]; then
-          module_type="${BASH_REMATCH[1]}"
           fi
           
           if [[ "$commit_message" =~ -m:([^\ ]*) ]]; then
@@ -70,15 +66,13 @@ jobs:
           
           echo "Environment: $env"
           echo "Module: $module"
-          echo "Module_Type: $module_type"
           echo "Version: $version"
           echo "Skip: $skip"
           echo "Run_Port: $run_port"
-          echo "Docker_Env: $docker_env"    
+          echo "Docker_Env: $docker_env"
           
           echo "ENV=$env" >> $GITHUB_ENV
           echo "MODULE=$module" >> $GITHUB_ENV
-          echo "MODULE_TYPE=$module_type" >> $GITHUB_ENV
           echo "VERSION=$version" >> $GITHUB_ENV
           echo "SKIP=$skip" >> $GITHUB_ENV
           echo "RUN_PORT=$run_port" >> $GITHUB_ENV
@@ -97,16 +91,12 @@ jobs:
           JASYPT_ALGO: ${{ secrets.JASYPT_ALGO }}
           JASYPT_PWD: ${{ secrets.JASYPT_PWD }}
         run: |
-          if [ "${{ env.MODULE_TYPE }}" != "single" ]; then
-            cd $MODULE
-          fi 
+          cd $MODULE
           echo "jasypt:" > src/main/resources/you-cant-see-that.yml
           echo "  encryptor:" >> src/main/resources/you-cant-see-that.yml
           echo "    algorithm: $JASYPT_ALGO" >> src/main/resources/you-cant-see-that.yml
           echo "    password:  $JASYPT_PWD" >> src/main/resources/you-cant-see-that.yml
-          if [ "${{ env.MODULE_TYPE }}" != "single" ]; then
-            cd ..
-          fi 
+          cd ..
           mvn package -Dmaven.test.skip=true
 
       - name: Build and Push Docker Images
@@ -116,10 +106,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PWD }}
         run: |
           echo "Module Name: $MODULE"
-          
-          if [ "${{ env.MODULE_TYPE }}" != "single" ]; then
-            cd $MODULE
-          fi 
+          cd $MODULE
           
           mkdir docker
           cp ./Dockerfile ./docker
@@ -154,21 +141,21 @@ jobs:
       - name: Connect Server
         uses: appleboy/ssh-action@master
         with:
-          # 同上述
-          host: ${{ env.HOST }}
-          username: root
-          password: ${{ env.PWD }}
-          port: ${{ env.PORT }}
-          # ssh进入系统后执行什么样的操作。一般是关闭原有的服务在重启
-          script: |
-            docker pull ${{ secrets.DOCKER_REPO }}/${{ env.MODULE }}:${{ env.VERSION }}
-            if [ "${{ env.RUN_PORT }}" != "" ]; then
-              stop_docker_name=$(docker ps --filter "expose=${{ env.RUN_PORT }}" --format "{{.Names}}")
-              if [ "$stop_docker_name" != "" ]; then
-                 docker stop $stop_docker_name
-              fi
-              docker rm ${{ env.MODULE }}-${{ env.VERSION }}
-            
-              docker run -p ${{env.RUN_PORT}}:${{env.RUN_PORT}} --name ${{ env.MODULE }}-${{ env.VERSION }} ${{env.DOCKER_ENV}} -d ${{ secrets.DOCKER_REPO }}/${{ env.MODULE }}:${{ env.VERSION }}
-            fi
-      
+        # 同上述
+        host: ${{ env.HOST }}
+        username: root
+        password: ${{ env.PWD }}
+        port: ${{ env.PORT }}
+        # ssh进入系统后执行什么样的操作。一般是关闭原有的服务在重启
+        script: |
+          docker pull ${{ secrets.DOCKER_REPO }}/${{ env.MODULE }}:${{ env.VERSION }}
+          if [ "${{ env.RUN_PORT }}" != "" ]; then
+          stop_docker_name=$(docker ps --filter "expose=${{ env.RUN_PORT }}" --format "{{.Names}}")
+          if [ "$stop_docker_name" != "" ]; then
+          docker stop $stop_docker_name
+          fi
+          docker rm ${{ env.MODULE }}-${{ env.VERSION }}
+          
+          docker run -p ${{env.RUN_PORT}}:${{env.RUN_PORT}} --name ${{ env.MODULE }}-${{ env.VERSION }} ${{env.DOCKER_ENV}} -e JASYPT_PASSWORD=${{ secrets.JASYPT_PWD }} -d ${{ secrets.DOCKER_REPO }}/${{ env.MODULE }}:${{ env.VERSION }}
+          fi
+

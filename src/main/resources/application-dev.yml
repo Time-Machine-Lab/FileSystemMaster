@@ -33,4 +33,5 @@ aliyun:
     bucket: ${ALIYUN_BUCKET:ENC(UylAdQ7C0295XxFewMbMQeXEm56ScZHsAUp+ogXhGIZQaY2chHOvs/xCApx73biv)} #同样以','分隔，顺序跟endpoint对应
 jasypt:
   encryptor:
-    password: ${JASYPT_ENCRYPTOR_PASSWORD:}
+    algorithm: PBEWithMD5AndDES
+    password: ${JASYPT_PASSWORD:}
