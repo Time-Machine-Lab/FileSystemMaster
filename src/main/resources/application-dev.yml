@@ -31,3 +31,6 @@ aliyun:
     accessKeyId: ${ALIYUN_ACCESSKEYID:ENC(ZLpVRImZr2ahVWWZ/H/HKbKicWJ6O5C1CZQtJOfRhrG2mOxge/Va8g==)} # 阿里云OSS配置,若为多组Bucket则以','分隔 需要跟bucket顺序对应  endpointA ->bucketA
     accessKeySecret: ${ALIYUN_ACCESSKEYSECRET:ENC(emfluR6N/8ALIgVaX1aou/dq0iaVRueqQJuzEfw3nv1TL+cNSX/njQ==)}
     bucket: ${ALIYUN_BUCKET:ENC(UylAdQ7C0295XxFewMbMQeXEm56ScZHsAUp+ogXhGIZQaY2chHOvs/xCApx73biv)} #同样以','分隔，顺序跟endpoint对应
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD:}
