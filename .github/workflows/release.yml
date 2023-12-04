@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    uses:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
