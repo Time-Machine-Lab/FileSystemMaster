@@ -3,3 +3,31 @@ spring:
     multipart:
       max-file-size: 1024MB
       max-request-size: 1024MB
+  datasource:
+    driver-class-name: ${MYSQL_DRIVER:1a1hJu3t4fsEmudrNpro9268cN/03dpcVMUVwGJGbjEESLR+2dkB0w==}
+    url: ${MYSQL_ADDR:ENC(aX+EdfJw1t5fEbG+fP3K1HX/KaTJXpCAUQnQmMn0LlOuueSv7Q9HvDJO6rSnswCiXj+bEx+YrPX85FdHgBccHeWWbNJuoDF3pdhNBbCp44xBrO26fj0g+Ppm8rSfLo3notZWpJako3oJJ3EJ/h70hw==)}
+    username: ${MYSQL_USERNAME:ENC(TeaiVnTiJut5/W+ZwCjbzA==)}
+    password: ${MYSQL_PASSWORD:ENC(pzKxQrSHyIK+IG/egL46xXfQhOpnYGnq/bEphsogzTg=)}
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+  redis:
+    host: ${REDIS_ADDR:ENC(TPLVJLDQklIWi8bUBfuK9NlhEsr0pUKN)} # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: ${REDIS_PORT:ENC(FHhKVruYE8+nWbYJS4B07Q==)} # Redis服务器连接端口
+    password: ${REDIS_PWD:fMELtMSEcwBw2h37zL58HwThVlByZ9j0IVBE+0b9zGE=} # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+  application:
+    name: file-system${UNIQUE_ID:0}-service
+aliyun:
+  oss:
+    endpoint: ${ALIYUN_ENDPOINT:ENC（1PIIf1us7wVwCLixS4mfLu0j70k6wnfBULrojEMHueJHy7AnbELYbb9FZzezvLvCGrNuNeZ7T2uHOE3wjFnxIe5i18U/gjY/GDKOw5XiKImCWhWqiNz07/HWSTBFluEg）}
+    accessKeyId: ${ALIYUN_ACCESSKEYID:ENC(ZLpVRImZr2ahVWWZ/H/HKbKicWJ6O5C1CZQtJOfRhrG2mOxge/Va8g==)} # 阿里云OSS配置,若为多组Bucket则以','分隔 需要跟bucket顺序对应  endpointA ->bucketA
+    accessKeySecret: ${ALIYUN_ACCESSKEYSECRET:ENC(emfluR6N/8ALIgVaX1aou/dq0iaVRueqQJuzEfw3nv1TL+cNSX/njQ==)}
+    bucket: ${ALIYUN_BUCKET:ENC(UylAdQ7C0295XxFewMbMQeXEm56ScZHsAUp+ogXhGIZQaY2chHOvs/xCApx73biv)} #同样以','分隔，顺序跟endpoint对应
