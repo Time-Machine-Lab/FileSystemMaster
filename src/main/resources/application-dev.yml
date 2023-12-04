@@ -21,13 +21,13 @@ spring:
     host: ${REDIS_ADDR:ENC(TPLVJLDQklIWi8bUBfuK9NlhEsr0pUKN)} # Redis服务器地址
     database: 0 # Redis数据库索引（默认为0）
     port: ${REDIS_PORT:ENC(FHhKVruYE8+nWbYJS4B07Q==)} # Redis服务器连接端口
-    password: ${REDIS_PWD:fMELtMSEcwBw2h37zL58HwThVlByZ9j0IVBE+0b9zGE=} # Redis服务器连接密码（默认为空）
+    password: ${REDIS_PWD:ENC(fMELtMSEcwBw2h37zL58HwThVlByZ9j0IVBE+0b9zGE=)} # Redis服务器连接密码（默认为空）
     timeout: 3000ms # 连接超时时间（毫秒）
   application:
     name: file-system${UNIQUE_ID:0}-service
 aliyun:
   oss:
-    endpoint: ${ALIYUN_ENDPOINT:ENC（1PIIf1us7wVwCLixS4mfLu0j70k6wnfBULrojEMHueJHy7AnbELYbb9FZzezvLvCGrNuNeZ7T2uHOE3wjFnxIe5i18U/gjY/GDKOw5XiKImCWhWqiNz07/HWSTBFluEg）}
+    endpoint: ${ALIYUN_ENDPOINT:ENC(1PIIf1us7wVwCLixS4mfLu0j70k6wnfBULrojEMHueJHy7AnbELYbb9FZzezvLvCGrNuNeZ7T2uHOE3wjFnxIe5i18U/gjY/GDKOw5XiKImCWhWqiNz07/HWSTBFluEg)}
     accessKeyId: ${ALIYUN_ACCESSKEYID:ENC(ZLpVRImZr2ahVWWZ/H/HKbKicWJ6O5C1CZQtJOfRhrG2mOxge/Va8g==)} # 阿里云OSS配置,若为多组Bucket则以','分隔 需要跟bucket顺序对应  endpointA ->bucketA
     accessKeySecret: ${ALIYUN_ACCESSKEYSECRET:ENC(emfluR6N/8ALIgVaX1aou/dq0iaVRueqQJuzEfw3nv1TL+cNSX/njQ==)}
     bucket: ${ALIYUN_BUCKET:ENC(UylAdQ7C0295XxFewMbMQeXEm56ScZHsAUp+ogXhGIZQaY2chHOvs/xCApx73biv)} #同样以','分隔，顺序跟endpoint对应
