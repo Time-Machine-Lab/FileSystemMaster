@@ -18,10 +18,10 @@ spring:
         login-username: druid
         login-password: druid
   redis:
-    host: ${REDIS_ADDR:ENC(7+i1abkV1AAW737zy56ZvAWdcUq8AKM0WufHtc+3eqo=)} # Redis服务器地址
+    host: ${REDIS_ADDR:ENC(TPLVJLDQklIWi8bUBfuK9NlhEsr0pUKN)} # Redis服务器地址
     database: 0 # Redis数据库索引（默认为0）
-    port: ${REDIS_PORT:ENC(vZrw6ItoyBBaKAHqyYi6zzoVUc8BRiM+)} # Redis服务器连接端口
-    password: ${REDIS_PWD:ENC(BWt70dzHaoTtVWtJWZF2c592HJgBHV9CdjwRTcOos/qort27DDnJag==)} # Redis服务器连接密码（默认为空）
+    port: ${REDIS_PORT:ENC(FHhKVruYE8+nWbYJS4B07Q==)} # Redis服务器连接端口
+    password: ${REDIS_PWD:ENC(fMELtMSEcwBw2h37zL58HwThVlByZ9j0IVBE+0b9zGE=)} # Redis服务器连接密码（默认为空）
     timeout: 3000ms # 连接超时时间（毫秒）
   cloud:
     nacos:
@@ -31,12 +31,12 @@ spring:
       config:
         file-extension: yaml
       discovery:
-        ip: ${SERVER_ADDR:ENC(7+i1abkV1AAW737zy56ZvAWdcUq8AKM0WufHtc+3eqo=)}
+        ip: ${SERVER_ADDR:ENC(jZPMcqD9wkpa7UeNYw7+KV1LXmCpRp3/SjM1AHdHQ6s=)}
   application:
-    name: file-system${UNIQUE_ID:0}-service
+    name: file-system-service${UNIQUE_ID:0}
 aliyun:
   oss:
-    endpoint: ${ALIYUN_ENDPOINT:ENC(83MSy3DnSCFiQN2YsiT40R3F09O2sLTSQA1xvKQ3xL3c1GbpWZUcTGurZDOB6hjzmtErMHYVDKUfVhvrIF7qIj5frqGwgCVvhv4zlTDfKVuj2wZydfPxZN5S/g/cNYfG)}
-    accessKeyId: ${ALIYUN_ACCESSKEYID:ENC(aEJ7HIZHzKBvxHDHHLKhdwipmCWeZXqoeSsIfZ1bHitFQC0asDygVQ==)} # 阿里云OSS配置,若为多组Bucket则以','分隔 需要跟bucket顺序对应  endpointA ->bucketA
-    accessKeySecret: ${ALIYUN_ACCESSKEYSECRET:ENC(deWOwE5Y1U/9r+RInFdXIroPWPiF71Ie4Wq3Ol/wy1Iq8ccX67C55A==)}
-    bucket: ${ALIYUN_BUCKET:ENC(pOvb+IpubgevuaoBZ4qWK2k+jc/K+eyIS177PxJkkaICPMgK/pmXQVhyiP49iJck)} #同样以','分隔，顺序跟endpoint对应
+    endpoint: ${ALIYUN_ENDPOINT:ENC(Nq/ROzXCH519HvbCkIsPkeWiC5gtYt62YZCv/B1bQ9CyWQXYWAFfv666Z+YlYoz4uCHT0aJsiOlu0dceHJH4GSJROM1ZG7/5)}
+    accessKeyId: ${ALIYUN_ACCESSKEYID:ENC(l0Fm2Kk2H3SuMqxBH51mYz0IYUnbQ5p0ZmfieytKx6YMh1TmqFmeTk1ExyT2blCR)}
+    accessKeySecret: ${ALIYUN_ACCESSKEYSECRET:ENC(ISX5rMzRdZHDDH5wsdMe0dwPTmkH2xSAm39iTUt695IXegXV+kdcpkeFOR6suHgb)}
+    bucket: ${ALIYUN_BUCKET:ENC(xjUC5boRO8KFBwSs6uq7IDk1ZlwMOZ5ORqxlHliziyQ=)}
