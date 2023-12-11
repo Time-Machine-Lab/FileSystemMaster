@@ -31,7 +31,7 @@ spring:
       config:
         file-extension: yaml
       discovery:
-        ip: ${SERVER_ADDR:ENC(jZPMcqD9wkpa7UeNYw7+KV1LXmCpRp3/SjM1AHdHQ6s=)}
+        ip: ${SERVER_ADDR:ENC(7+i1abkV1AAW737zy56ZvAWdcUq8AKM0WufHtc+3eqo=)}
   application:
     name: file-system-service${UNIQUE_ID:0}
 aliyun:
