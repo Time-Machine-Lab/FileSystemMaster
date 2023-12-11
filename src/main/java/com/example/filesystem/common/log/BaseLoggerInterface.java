@@ -1,7 +1,7 @@
 package com.example.filesystem.common.log;
 
 /**
- * @Description 抽象log接口
+ * @Description 抽象log接口,
  * @Author welsir
  * @Date 2023/11/23 18:20
  */
