@@ -18,10 +18,10 @@ spring:
         login-username: druid
         login-password: druid
   redis:
-    host: ${REDIS_ADDR:ENC(TPLVJLDQklIWi8bUBfuK9NlhEsr0pUKN)} # Redis服务器地址
+    host: ${REDIS_ADDR:ENC(gfVHUx9Q3MOobwxRYtxbvNuo0SeQBllfb7SLgEtm8ZY=)} # Redis服务器地址
     database: 0 # Redis数据库索引（默认为0）
-    port: ${REDIS_PORT:ENC(FHhKVruYE8+nWbYJS4B07Q==)} # Redis服务器连接端口
-    password: ${REDIS_PWD:ENC(fMELtMSEcwBw2h37zL58HwThVlByZ9j0IVBE+0b9zGE=)} # Redis服务器连接密码（默认为空）
+    port: ${REDIS_PORT:ENC(lFAbKYtMOt5dctRhoYYeIdekCwPv5euR)} # Redis服务器连接端口
+    password: ${REDIS_PWD:ENC(g+DlVpnt76Ji9s86jd28sGrL+GMWgvWivTRehbesgrA=)} # Redis服务器连接密码（默认为空）
     timeout: 3000ms # 连接超时时间（毫秒）
   cloud:
     nacos:
