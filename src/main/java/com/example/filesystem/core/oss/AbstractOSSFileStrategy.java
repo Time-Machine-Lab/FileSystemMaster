@@ -3,6 +3,7 @@ package com.example.filesystem.core.oss;
 import com.example.filesystem.core.strategy.FileStrategy;
 import com.example.filesystem.pojo.vo.CommonFileVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
+import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -24,7 +25,7 @@ public class AbstractOSSFileStrategy extends FileStrategy{
     }
 
     @Override
-    public <T extends CommonFileVO> String upload(T commonFileVO) {
+    public <T extends CommonFileVO> UploadFileVO upload(T commonFileVO) {
         return ossOperator.uploadFile((OSSFileVO) commonFileVO);
     }
 }

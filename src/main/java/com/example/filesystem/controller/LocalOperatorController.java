@@ -4,6 +4,7 @@ import com.example.filesystem.common.Result;
 import com.example.filesystem.core.local.LocalFileStrategy;
 import com.example.filesystem.pojo.vo.CommonFileVO;
 
+import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class LocalOperatorController  {
 
     @PostMapping("/upload")
     public Result<?> upload(CommonFileVO commonFileVO){
-        String res = strategy.upload(commonFileVO);
+        UploadFileVO res = strategy.upload(commonFileVO);
         return Result.success(res);
     }
 

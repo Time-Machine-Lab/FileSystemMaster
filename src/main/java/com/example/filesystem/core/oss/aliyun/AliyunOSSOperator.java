@@ -13,6 +13,7 @@ import com.example.filesystem.pojo.FileBucket;
 import com.example.filesystem.pojo.SingleFile;
 import com.example.filesystem.pojo.StatusConstEnum;
 import com.example.filesystem.pojo.vo.OSSFileVO;
+import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +40,7 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     FileBucketMapper fileBucketMapper;
     @Transactional
     @Override
-    public String uploadFile(OSSFileVO ossFileVO) {
+    public UploadFileVO uploadFile(OSSFileVO ossFileVO) {
         String[] endpoints = aliyunConfig.getEndpoints();
         String accessKeyId =aliyunConfig.getAccessKeyId();
         String accessKeySecret = aliyunConfig.getAccessKeySecret();
@@ -58,18 +59,21 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
             InputStream inputStream = ossFileVO.getFile().getInputStream();
             String fileName = ossFileVO.getMd5();
             String fileType = ossFileVO.getFile().getOriginalFilename().split("\\.")[1];
-            fileName = ossFileVO.getSavePath()+"/"+fileName+"."+fileType;
+            fileName = ossFileVO.getPath()+"/"+fileName+"."+fileType;
             ossClient.putObject(uploadBucket,fileName,inputStream);
             SingleFile singleFile = new SingleFile();
             singleFile.setMd5(ossFileVO.getMd5());
-            singleFile.setPath(ossFileVO.getSavePath());
+            singleFile.setPath(ossFileVO.getPath());
             singleFile.setOriginName(ossFileVO.getFile().getOriginalFilename());
             fileMapper.insert(singleFile);
             FileBucket fileBucket = new FileBucket();
             fileBucket.setId(String.valueOf(singleFile.getId()));
             fileBucket.setBucket(uploadBucket);
             fileBucketMapper.insert(fileBucket);
-            return "https://"+uploadBucket+"."+uploadEndpoint+"/"+fileName;
+            return UploadFileVO.builder()
+                    .fileId(String.valueOf(singleFile.getId()))
+                    .url("https://" + uploadBucket + "." + uploadEndpoint + "/" + fileName)
+                    .build();
         } catch (IOException e) {
             logger.debug(e.getMessage(),e);
             throw new BaseException(StatusConstEnum.OSS_FILE_UPLOAD_ERROR);

@@ -12,6 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class CommonFileVO {
     private String fileId;
     private MultipartFile file;
-    private String savePath;
+    private String path;
     private String md5;
 }

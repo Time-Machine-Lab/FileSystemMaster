@@ -3,6 +3,7 @@ package com.example.filesystem.controller;
 import com.example.filesystem.common.Result;
 import com.example.filesystem.core.oss.AbstractOSSFileStrategy;
 import com.example.filesystem.pojo.vo.OSSFileVO;
+import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.apache.tomcat.jni.OS;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class OSSOperatorController {
 
     @PostMapping("/upload")
     public Result<?> upload(OSSFileVO commonFileVO){
-        String res = strategy.upload(commonFileVO);
+        UploadFileVO res = strategy.upload(commonFileVO);
         return Result.success(res);
     }
 

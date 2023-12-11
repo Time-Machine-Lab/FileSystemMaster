@@ -7,6 +7,7 @@ import com.example.filesystem.mapper.FileMapper;
 import com.example.filesystem.pojo.SingleFile;
 import com.example.filesystem.pojo.vo.CommonDownloadVO;
 import com.example.filesystem.pojo.vo.CommonFileVO;
+import com.example.filesystem.pojo.vo.UploadFileVO;
 import com.example.filesystem.util.FileUtils;
 import org.springframework.stereotype.Component;
 
@@ -37,15 +38,21 @@ public class LocalFileStrategy extends FileStrategy {
     }
 
     @Override
-    public <T extends CommonFileVO> String upload(T commonFileVO) {
+    public <T extends CommonFileVO> UploadFileVO upload(T commonFileVO) {
         String filename = commonFileVO.getFile().getOriginalFilename();
-        String size = String.valueOf(commonFileVO.getFile().getSize());
-        fileUtils.createFolderIfAbenset(commonFileVO.getSavePath());
-        File loacalFile = new File(commonFileVO.getSavePath() + filename);
+        fileUtils.createFolderIfAbenset(commonFileVO.getPath());
+        File loacalFile = new File(commonFileVO.getPath() + filename);
         try {
+            SingleFile file = SingleFile.builder()
+                    .md5(commonFileVO.getMd5())
+                    .path(commonFileVO.getPath())
+                    .originName(commonFileVO.getFile().getOriginalFilename()).build();
             commonFileVO.getFile().transferTo(loacalFile);
-            Date date = new Date(System.currentTimeMillis());
-            return String.valueOf(date.toString());
+            fileMapper.insert(file);
+            return UploadFileVO.builder()
+                    .fileId(String.valueOf(file.getId()))
+                    .url(loacalFile.getPath())
+                    .build();
         } catch (IOException e) {
             logger.error(e.toString(),e);
         }

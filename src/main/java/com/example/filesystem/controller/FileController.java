@@ -4,6 +4,7 @@ import com.example.filesystem.common.Result;
 import com.example.filesystem.core.strategy.FileStrategy;
 import com.example.filesystem.pojo.vo.CommonDownloadVO;
 import com.example.filesystem.pojo.vo.CommonFileVO;
+import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public abstract class FileController<T extends CommonFileVO,S extends FileStrate
 
     @PostMapping("/upload")
     public Result<?> upload(T commonFileVO){
-        String res = s.upload(commonFileVO);
+        UploadFileVO res = s.upload(commonFileVO);
         return Result.success(res);
     }
 
