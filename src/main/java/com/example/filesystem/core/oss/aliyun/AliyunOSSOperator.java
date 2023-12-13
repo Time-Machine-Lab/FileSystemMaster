@@ -12,6 +12,7 @@ import com.example.filesystem.mapper.FileMapper;
 import com.example.filesystem.pojo.FileBucket;
 import com.example.filesystem.pojo.SingleFile;
 import com.example.filesystem.pojo.StatusConstEnum;
+import com.example.filesystem.pojo.vo.DownloadFileVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
 import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.springframework.stereotype.Component;
@@ -81,7 +82,7 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     }
 
     @Override
-    public String downloadFile(OSSFileVO ossFileVO) {
+    public String downloadFile(DownloadFileVO ossFileVO) {
 
         String accessKeyId = aliyunConfig.getAccessKeyId();
         String accessKeySecret = aliyunConfig.getAccessKeySecret();

@@ -2,10 +2,12 @@ package com.example.filesystem.controller;
 
 import com.example.filesystem.common.Result;
 import com.example.filesystem.core.oss.AbstractOSSFileStrategy;
+import com.example.filesystem.pojo.vo.DownloadFileVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
 import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.apache.tomcat.jni.OS;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +32,7 @@ public class OSSOperatorController {
     }
 
     @PostMapping("/download")
-    public Result<?> download(OSSFileVO commonFileVO){
+    public Result<?> download(DownloadFileVO commonFileVO){
         String res = strategy.download(commonFileVO);
         return Result.success(res);
     }
