@@ -1,10 +1,12 @@
 package com.example.filesystem.core.local;
 
+import com.example.filesystem.common.AbstractAssert;
 import com.example.filesystem.common.Result;
 import com.example.filesystem.common.log.AbstractLogger;
 import com.example.filesystem.core.strategy.FileStrategy;
 import com.example.filesystem.mapper.FileMapper;
 import com.example.filesystem.pojo.SingleFile;
+import com.example.filesystem.pojo.StatusConstEnum;
 import com.example.filesystem.pojo.vo.CommonDownloadVO;
 import com.example.filesystem.pojo.vo.CommonFileVO;
 import com.example.filesystem.pojo.vo.UploadFileVO;
@@ -33,6 +35,7 @@ public class LocalFileStrategy extends FileStrategy {
     @Override
     public <T extends CommonFileVO> String download(T commonFileVO) {
         SingleFile singleFile = fileMapper.selectById(commonFileVO.getFileId());
+        AbstractAssert.isNull(singleFile, StatusConstEnum.FILE_NOT_EXIT);
         String fileType = singleFile.getOriginName().split("\\.")[1];
         return singleFile.getPath()+"/"+singleFile.getMd5()+"."+fileType;
     }

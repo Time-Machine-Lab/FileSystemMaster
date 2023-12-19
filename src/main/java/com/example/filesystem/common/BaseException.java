@@ -18,6 +18,8 @@ public class BaseException extends RuntimeException{
 
     protected StatusConstEnum resultCode;
 
+    protected Exception exception;
+
     public StatusConstEnum getResultCode() {
         return resultCode;
     }
@@ -25,7 +27,6 @@ public class BaseException extends RuntimeException{
     public void setResultCode(StatusConstEnum resultCode) {
         this.resultCode = resultCode;
     }
-
     public BaseException(String message, Object[] params, Throwable cause)
     {
         super(message, cause);
@@ -38,6 +39,11 @@ public class BaseException extends RuntimeException{
 
     public BaseException(StatusConstEnum resultCode){
         this.resultCode = resultCode;
+    }
+
+    public BaseException(StatusConstEnum resultCode,Exception e){
+        this.resultCode = resultCode;
+        this.exception = e;
     }
 
     public BaseException(String msg) {

@@ -4,6 +4,7 @@ import com.example.filesystem.common.BaseException;
 import com.example.filesystem.common.Result;
 import com.example.filesystem.common.log.AbstractLogger;
 import com.example.filesystem.pojo.StatusConstEnum;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.validation.BindException;
+
+import java.util.stream.Collectors;
 
 /**
  * @Description 同意异常类处理器
@@ -36,8 +40,9 @@ public class GlobalExceptionHandler {
             if (resultCode == null) {
                 result = Result.fail(se.getMessage());
             } else {
-                result = new Result(resultCode.getCode(),
-                        StringUtils.isEmpty(se.getMessage()) ? se.getMessage() : resultCode.getDesc());
+                String message = StringUtils.isEmpty(se.getMessage()) ? resultCode.getDesc()  : ex.getMessage();
+                result = Result.fail(resultCode.getCode()
+                ,message);
             }
         }
         //参数错误
@@ -47,4 +52,13 @@ public class GlobalExceptionHandler {
         logger.info("exception handle result:" + result);
         return result;
     }
+
+
+    @ExceptionHandler(BindException.class)
+    @ResponseBody
+    public Result bindExceptionHandler(BindException e){
+        String message = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
+        return Result.fail(message);
+    }
+
 }

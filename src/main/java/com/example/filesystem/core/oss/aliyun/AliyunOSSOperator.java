@@ -4,6 +4,7 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.GeneratePresignedUrlRequest;
+import com.example.filesystem.common.AbstractAssert;
 import com.example.filesystem.common.BaseException;
 import com.example.filesystem.common.log.AbstractLogger;
 import com.example.filesystem.core.oss.OSSFileOperatorInterface;
@@ -84,6 +85,8 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     @Override
     public String downloadFile(DownloadFileVO ossFileVO) {
 
+        AbstractAssert.isNull(fileBucketMapper.queryFileIsExit(ossFileVO.getBucket(),ossFileVO.getFileId()),StatusConstEnum.FILE_NOT_EXIT);
+
         String accessKeyId = aliyunConfig.getAccessKeyId();
         String accessKeySecret = aliyunConfig.getAccessKeySecret();
         int bucketIndex = getBucketIndex(ossFileVO.getBucket());
@@ -101,7 +104,7 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
             String fileName = singleFile.getMd5();
             String fileType = singleFile.getOriginName().split("\\.")[1];
             fileName = singleFile.getPath()+"/"+fileName+"."+fileType;
-            if("true".equals(ossFileVO.getIsPrivate())){
+            if(bucketIsPrivate(bucket)){
                 Date expiration = new Date(new Date().getTime() + 3600 * 1000); // 1小时后过期
                 GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucket,fileName);
                 request.setExpiration(expiration);
@@ -109,7 +112,10 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
             }else {
                 return "https://"+bucket+"."+endpoint+"/"+fileName;
             }
-        }finally {
+        }catch (RuntimeException e){
+            logger.error("%s:"+e.getStackTrace()[0],e);
+            throw new BaseException(StatusConstEnum.OSS_FILE_DOWNLOAD_ERROR);
+        } finally {
             ossClient.shutdown();
         }
     }
@@ -122,6 +128,11 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
             }
         }
         return -1;
+    }
+
+    private boolean bucketIsPrivate(String bucket){
+        String[] isPrivate = aliyunConfig.getBucketPrivate();
+        return "true".equals(isPrivate[getBucketIndex(bucket)]);
     }
 
 }

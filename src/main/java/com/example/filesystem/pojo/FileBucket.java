@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 public class FileBucket {
 
     private String id;
-    @TableField(value = "bucket_name")
     private String bucket;
 
 }

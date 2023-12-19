@@ -6,6 +6,7 @@ import com.example.filesystem.pojo.vo.DownloadFileVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
 import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.apache.tomcat.jni.OS;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +27,14 @@ public class OSSOperatorController {
     AbstractOSSFileStrategy strategy;
 
     @PostMapping("/upload")
-    public Result<?> upload(OSSFileVO commonFileVO){
+    public Result<?> upload(@Validated OSSFileVO commonFileVO){
         UploadFileVO res = strategy.upload(commonFileVO);
         return Result.success(res);
     }
 
     @PostMapping("/download")
-    public Result<?> download(DownloadFileVO commonFileVO){
+    public Result<?> download(@Validated DownloadFileVO commonFileVO){
         String res = strategy.download(commonFileVO);
         return Result.success(res);
     }
-
 }

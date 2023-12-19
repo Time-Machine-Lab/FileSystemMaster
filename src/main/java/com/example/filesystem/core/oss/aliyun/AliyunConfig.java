@@ -22,4 +22,7 @@ public class AliyunConfig {
     private String accessKeySecret;
     @Value("${aliyun.oss.bucket}")
     private String[] buckets;
+
+    @Value("${aliyun.oss.bucket-private}")
+    private String[] bucketPrivate;
 }
