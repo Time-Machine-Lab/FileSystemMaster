@@ -6,6 +6,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.GeneratePresignedUrlRequest;
 import com.example.filesystem.common.AbstractAssert;
 import com.example.filesystem.common.BaseException;
+import com.example.filesystem.common.constant.CommonConstant;
 import com.example.filesystem.common.log.AbstractLogger;
 import com.example.filesystem.core.oss.OSSFileOperatorInterface;
 import com.example.filesystem.mapper.FileBucketMapper;
@@ -68,10 +69,8 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
             singleFile.setPath(ossFileVO.getPath());
             singleFile.setOriginName(ossFileVO.getFile().getOriginalFilename());
             fileMapper.insert(singleFile);
-            FileBucket fileBucket = new FileBucket();
-            fileBucket.setId(String.valueOf(singleFile.getId()));
-            fileBucket.setBucket(uploadBucket);
-            fileBucketMapper.insert(fileBucket);
+            String uploadId = fileBucketMapper.queryBucketId(uploadBucket, CommonConstant.ALIYUN_OSS);
+            fileBucketMapper.insertFileBucketRelative(singleFile.getId().toString(),uploadId);
             return UploadFileVO.builder()
                     .fileId(String.valueOf(singleFile.getId()))
                     .url("https://" + uploadBucket + "." + uploadEndpoint + "/" + fileName)
