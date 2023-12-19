@@ -3,6 +3,7 @@ package com.example.filesystem.core.local;
 import com.example.filesystem.common.AbstractAssert;
 import com.example.filesystem.common.Result;
 import com.example.filesystem.common.log.AbstractLogger;
+import com.example.filesystem.config.SystemConfig;
 import com.example.filesystem.core.strategy.FileStrategy;
 import com.example.filesystem.mapper.FileMapper;
 import com.example.filesystem.pojo.SingleFile;
@@ -32,6 +33,8 @@ public class LocalFileStrategy extends FileStrategy {
     AbstractLogger logger;
     @Resource
     FileMapper fileMapper;
+    @Resource
+    SystemConfig systemConfig;
     @Override
     public <T extends CommonFileVO> String download(T commonFileVO) {
         SingleFile singleFile = fileMapper.selectById(commonFileVO.getFileId());
@@ -42,9 +45,10 @@ public class LocalFileStrategy extends FileStrategy {
 
     @Override
     public <T extends CommonFileVO> UploadFileVO upload(T commonFileVO) {
+        String folder = systemConfig.getUploadUrl();
         String filename = commonFileVO.getFile().getOriginalFilename();
-        fileUtils.createFolderIfAbenset(commonFileVO.getPath());
-        File loacalFile = new File(commonFileVO.getPath() + filename);
+        fileUtils.createFolderIfAbenset(folder);
+        File loacalFile = new File(folder,commonFileVO.getPath() + filename);
         try {
             SingleFile file = SingleFile.builder()
                     .md5(commonFileVO.getMd5())
