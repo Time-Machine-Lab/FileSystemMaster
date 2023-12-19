@@ -40,7 +40,10 @@ aliyun:
     accessKeyId: ${ALIYUN_ACCESSKEYID:ENC(l0Fm2Kk2H3SuMqxBH51mYz0IYUnbQ5p0ZmfieytKx6YMh1TmqFmeTk1ExyT2blCR)}
     accessKeySecret: ${ALIYUN_ACCESSKEYSECRET:ENC(ISX5rMzRdZHDDH5wsdMe0dwPTmkH2xSAm39iTUt695IXegXV+kdcpkeFOR6suHgb)}
     bucket: ${ALIYUN_BUCKET:ENC(xjUC5boRO8KFBwSs6uq7IDk1ZlwMOZ5ORqxlHliziyQ=)}
+    bucket-private: ${BUCKET_PRIVATE:ENC(FhyRfhTLHOBYkWbGeOsUlAG3UD5EaiFG/YEfYyCGb50=)}
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
     password: ${JASYPT_PASSWORD:}
+oss:
+  handler: ${OSSHandler:aliyun}
