@@ -22,9 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class FileService {
-
-    @Resource
-    FileUtils fileUtils;
     @Resource
     AbstractLogger logger;
 
@@ -32,9 +29,9 @@ public class FileService {
 
     public Map chunkUpload(ChunkVO chunk){
         Map<String, String> map = new HashMap<>();
-        String fileFolderPath = chunk.getFilePath()+File.separator+fileUtils.getFileFolderPath(chunk.getMd5());
+        String fileFolderPath = chunk.getFilePath()+File.separator+FileUtils.getFileFolderPath(chunk.getMd5());
 
-        File folderFile = fileUtils.createFolderIfAbenset(fileFolderPath);
+        File folderFile = FileUtils.createFolderIfAbenset(fileFolderPath);
 
         String writePath = folderFile.getAbsolutePath()+File.separator+chunk.getFilename()+"."+chunk.getChunkNumber();
         try (
@@ -51,7 +48,7 @@ public class FileService {
                 map.put("Date",new Date(System.currentTimeMillis()).toString());
                 map.put("chunkNumber",chunk.getChunkNumber().toString());
                 map.put("isFinish","true");
-                Integer mb = fileUtils.translateByteToMB(chunk.getAllFileSize());
+                Integer mb = FileUtils.translateByteToMB(chunk.getAllFileSize());
                 map.put("fileSize",(mb).toString());
             }else{
                 map.put("Date",new Date(System.currentTimeMillis()).toString());

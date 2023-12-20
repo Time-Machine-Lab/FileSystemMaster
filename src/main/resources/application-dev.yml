@@ -3,6 +3,10 @@ spring:
     multipart:
       max-file-size: 1024MB
       max-request-size: 1024MB
+      enabled: true
+      file-size-threshold: 5MB
+  mvc:
+    static-path-pattern: /**
   datasource:
     driver-class-name: ${MYSQL_DRIVER:com.mysql.cj.jdbc.Driver}
     url: ${MYSQL_ADDR:ENC(IG+MCcXYlC/7ZXAcMW0//4p+a3+0eaFptuvtY5Ot5KMjwuAIhxcBE4CGnOBWq1/mI6WZoKTBcmAR2a9LbyMXjCRkQgvCK85dKwhuPtT6pa+BEsQNh2LKHW5UDZRQqD9N55yjpeSUocLHYmLfywZbgDhdO3DAJrOC)}
@@ -34,6 +38,9 @@ spring:
         ip: ${SERVER_ADDR:ENC(Y5HcvI+7TfzJVRmAMpYDqR0bwJqzwMzdpQ8RCIr1y2w=)}
   application:
     name: rvc-file-service
+  web:
+    resources:
+      static-locations: /META-INF/resources/,classpath:/static,classpath:/resources/,file:{file.uploadUrl}
 aliyun:
   oss:
     endpoint: ${ALIYUN_ENDPOINT:ENC(Nq/ROzXCH519HvbCkIsPkeWiC5gtYt62YZCv/B1bQ9CyWQXYWAFfv666Z+YlYoz4uCHT0aJsiOlu0dceHJH4GSJROM1ZG7/5)}
@@ -48,4 +55,6 @@ jasypt:
 oss:
   handler: ${OSSHandler:aliyun}
 file:
-  uploadUrl: ${LINUX_UPLOAD_URL:ENC(IcBTn2AO8jwo89SdMlhcx74JxCTVBC0DDeruYzidNcM=)}
+  uploadUrl: ${LINUX_UPLOAD:ENC(bUsOhfap5GKW7FI6zs2H24hqrsRj+6+GMjeWDiymyi4=)}
+#    uploadUrl: ${LOCATION_UPLOAD:ENC(y2ULx5rMyoEkGRc7cxgM3LLub9p/QhAcC8UYzid+/jQ=)}
+  domain: ${DOMAIN:ENC(eB83gdqYGxKJTTZc8ApYSSXrHFCAruE+cLYHuaBN7cg=)}

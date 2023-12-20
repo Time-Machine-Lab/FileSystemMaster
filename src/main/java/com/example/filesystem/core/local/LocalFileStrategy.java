@@ -1,5 +1,6 @@
 package com.example.filesystem.core.local;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.filesystem.common.AbstractAssert;
 import com.example.filesystem.common.Result;
 import com.example.filesystem.common.log.AbstractLogger;
@@ -17,6 +18,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -27,8 +32,6 @@ import java.util.Date;
 @Component
 public class LocalFileStrategy extends FileStrategy {
 
-    @Resource
-    FileUtils fileUtils;
     @Resource
     AbstractLogger logger;
     @Resource
@@ -45,20 +48,27 @@ public class LocalFileStrategy extends FileStrategy {
 
     @Override
     public <T extends CommonFileVO> UploadFileVO upload(T commonFileVO) {
-        String folder = systemConfig.getUploadUrl();
-        String filename = commonFileVO.getFile().getOriginalFilename();
-        fileUtils.createFolderIfAbenset(folder);
-        File loacalFile = new File(folder,commonFileVO.getPath() + filename);
+        String saveFolder = systemConfig.getUploadUrl().replace("\\","/");
+        String fileType = FileUtils.getExtension(commonFileVO.getFile().getOriginalFilename());
+        String prePath = commonFileVO.getPath().replace("\\","/");
+        FileUtils.isValidPath(prePath);
+        String formattedDate = FileUtils.getCurrentTimeUrl();
+        String path = saveFolder+prePath+formattedDate+"/";
+        FileUtils.createFolderIfAbenset(path);
+        String filename = commonFileVO.getMd5()+"."+fileType;
+        File loacalFile = new File(path,filename);
         try {
             SingleFile file = SingleFile.builder()
                     .md5(commonFileVO.getMd5())
-                    .path(commonFileVO.getPath())
-                    .originName(commonFileVO.getFile().getOriginalFilename()).build();
+                    .path(path)
+                    .originName(commonFileVO.getFile().getOriginalFilename())
+                    .build();
             commonFileVO.getFile().transferTo(loacalFile);
             fileMapper.insert(file);
+            String url = path+filename;
             return UploadFileVO.builder()
                     .fileId(String.valueOf(file.getId()))
-                    .url(loacalFile.getPath())
+                    .url(url)
                     .build();
         } catch (IOException e) {
             logger.error(e.toString(),e);

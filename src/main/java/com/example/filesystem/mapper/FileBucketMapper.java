@@ -16,8 +16,11 @@ public interface FileBucketMapper extends BaseMapper<FileBucket> {
     @Select("select ffb.* from rvc_file_file_bucket ffb join rvc_file_bucket fb on ffb.bucket_id = fb.id where ffb.file_id = #{fileId} and fb.bucket = #{bucket}")
     Object queryFileIsExit(String bucket,String fileId);
 
-    @Insert("insert into rvc_file_file_bucket (bucket_id,file_id) values (#{bucketId},#{fileId})")
-    int insertFileBucketRelative(String fileId,String bucketId);
+    @Insert("INSERT INTO rvc_file_file_bucket (bucket_id, file_id)\n" +
+            "SELECT \n" +
+            "    (SELECT id FROM rvc_file_bucket WHERE bucket = #{bucketName} AND type = #{type}),\n" +
+            "    #{fileId}")
+    int insertFileBucketRelative(String fileId,String bucketName,String type);
 
     @Select("select id from rvc_file_bucket where bucket = #{bucketName} and type = #{type}")
     String queryBucketId(String bucketName,String type);

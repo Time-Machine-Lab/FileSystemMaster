@@ -8,6 +8,7 @@ import com.example.filesystem.pojo.vo.UploadFileVO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @Description 抽象OSS策略
@@ -31,7 +32,7 @@ public class AbstractOSSFileStrategy extends FileStrategy{
 
     @Override
     public <T extends CommonFileVO> UploadFileVO upload(T commonFileVO) {
-
-        return ossOperator.uploadFile((OSSFileVO) commonFileVO);
+        UploadFileVO uploadFileVO = ossOperator.uploadFile((OSSFileVO) commonFileVO);
+        return uploadFileVO;
     }
 }

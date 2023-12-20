@@ -8,6 +8,7 @@ import com.example.filesystem.common.AbstractAssert;
 import com.example.filesystem.common.BaseException;
 import com.example.filesystem.common.constant.CommonConstant;
 import com.example.filesystem.common.log.AbstractLogger;
+import com.example.filesystem.config.SystemConfig;
 import com.example.filesystem.core.oss.OSSFileOperatorInterface;
 import com.example.filesystem.mapper.FileBucketMapper;
 import com.example.filesystem.mapper.FileMapper;
@@ -17,13 +18,18 @@ import com.example.filesystem.pojo.StatusConstEnum;
 import com.example.filesystem.pojo.vo.DownloadFileVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
 import com.example.filesystem.pojo.vo.UploadFileVO;
+import com.example.filesystem.service.AsyncService;
+import com.example.filesystem.util.FileUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @Description
@@ -38,47 +44,54 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     @Resource
     AliyunConfig aliyunConfig;
     @Resource
+    SystemConfig systemConfig;
+    @Resource
     FileMapper fileMapper;
     @Resource
     FileBucketMapper fileBucketMapper;
-    @Transactional
+    @Resource
+    AsyncService asyncService;
+    @Resource
+    private TransactionTemplate transactionTemplate;
     @Override
     public UploadFileVO uploadFile(OSSFileVO ossFileVO) {
+        String saveFolder = systemConfig.getUploadUrl().replace("\\","/");
+        String path = ossFileVO.getPath().replace("\\","/");
+        String fileType = FileUtils.getExtension(Objects.requireNonNull(ossFileVO.getFile().getOriginalFilename()));
         String[] endpoints = aliyunConfig.getEndpoints();
-        String accessKeyId =aliyunConfig.getAccessKeyId();
-        String accessKeySecret = aliyunConfig.getAccessKeySecret();
         String[] buckets = aliyunConfig.getBuckets();
-        String uploadEndpoint;
-        String uploadBucket;
         int bucketIndex = getBucketIndex(ossFileVO.getBucket());
+        String uploadBucket;
+        String uploadEndpoint;
+        saveFolder = saveFolder+path+FileUtils.getCurrentTimeUrl()+"/oss/";
+        FileUtils.createFolderIfAbenset(saveFolder);
         if(bucketIndex!=-1){
             uploadEndpoint = endpoints[bucketIndex];
             uploadBucket = buckets[bucketIndex];
         }else {
             throw new BaseException(StatusConstEnum.QUERY_BUCKET_ERROR);
         }
-        try {
-            OSSClient ossClient = new OSSClient(uploadEndpoint, accessKeyId, accessKeySecret);
-            InputStream inputStream = ossFileVO.getFile().getInputStream();
-            String fileName = ossFileVO.getMd5();
-            String fileType = ossFileVO.getFile().getOriginalFilename().split("\\.")[1];
-            fileName = ossFileVO.getPath()+"/"+fileName+"."+fileType;
-            ossClient.putObject(uploadBucket,fileName,inputStream);
-            SingleFile singleFile = new SingleFile();
-            singleFile.setMd5(ossFileVO.getMd5());
-            singleFile.setPath(ossFileVO.getPath());
-            singleFile.setOriginName(ossFileVO.getFile().getOriginalFilename());
+        String fileName = ossFileVO.getMd5()+ "." + fileType;
+        File localFile = new File(saveFolder,fileName);
+        SingleFile singleFile = new SingleFile();
+        singleFile.setMd5(ossFileVO.getMd5());
+        singleFile.setPath(ossFileVO.getPath());
+        singleFile.setOriginName(ossFileVO.getFile().getOriginalFilename());
+        transactionTemplate.execute(transactionStatus ->{
             fileMapper.insert(singleFile);
-            String uploadId = fileBucketMapper.queryBucketId(uploadBucket, CommonConstant.ALIYUN_OSS);
-            fileBucketMapper.insertFileBucketRelative(singleFile.getId().toString(),uploadId);
-            return UploadFileVO.builder()
-                    .fileId(String.valueOf(singleFile.getId()))
-                    .url("https://" + uploadBucket + "." + uploadEndpoint + "/" + fileName)
-                    .build();
+            fileBucketMapper.insertFileBucketRelative(singleFile.getId().toString(),uploadBucket, CommonConstant.ALIYUN_OSS);
+            return Boolean.TRUE;
+        });
+        try {
+            ossFileVO.getFile().transferTo(localFile);
+            asyncService.asyncUpload(ossFileVO,uploadEndpoint,uploadBucket,ossFileVO.getFile().getInputStream());
         } catch (IOException e) {
-            logger.debug(e.getMessage(),e);
-            throw new BaseException(StatusConstEnum.OSS_FILE_UPLOAD_ERROR);
+            throw new BaseException(e.toString());
         }
+        return UploadFileVO.builder()
+                .fileId(String.valueOf(singleFile.getId()))
+                .url("https://" + uploadBucket + "." + uploadEndpoint + "/" + fileName)
+                .build();
     }
 
     @Override

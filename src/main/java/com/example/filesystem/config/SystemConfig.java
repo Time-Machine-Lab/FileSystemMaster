@@ -16,4 +16,6 @@ public class SystemConfig {
     @Value("${file.uploadUrl}")
     private String uploadUrl;
 
+    @Value("${file.domain}")
+    private String domain;
 }
