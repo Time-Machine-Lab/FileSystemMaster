@@ -2,6 +2,7 @@ package com.example.filesystem.core.local;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.filesystem.common.AbstractAssert;
+import com.example.filesystem.common.BaseException;
 import com.example.filesystem.common.Result;
 import com.example.filesystem.common.log.AbstractLogger;
 import com.example.filesystem.config.SystemConfig;
@@ -58,8 +59,8 @@ public class LocalFileStrategy extends FileStrategy {
         String filename = commonFileVO.getMd5()+"."+fileType;
         logger.info("userDir:%s",System.getProperty("user.dir"));
         logger.info("savePath:%s",path);
-        File loacalFile = new File(path,filename);
         try {
+            File loacalFile = new File(path,filename);
             SingleFile file = SingleFile.builder()
                     .md5(commonFileVO.getMd5())
                     .path(path)
@@ -74,7 +75,7 @@ public class LocalFileStrategy extends FileStrategy {
                     .build();
         } catch (IOException e) {
             logger.error(e.toString(),e);
+            throw new BaseException(e.toString());
         }
-        return null;
     }
 }
