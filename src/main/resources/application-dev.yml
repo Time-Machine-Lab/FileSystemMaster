@@ -55,6 +55,6 @@ jasypt:
 oss:
   handler: ${OSSHandler:aliyun}
 file:
-  uploadUrl: ${LINUX_UPLOAD:ENC(bUsOhfap5GKW7FI6zs2H24hqrsRj+6+GMjeWDiymyi4=)}
+  uploadUrl: ${LINUX_UPLOAD:ENC(le3CFNcFvVdIJqtDaGCk0allCjHxfy0Uj4lAQdrs/NM=)}
 #    uploadUrl: ${LOCATION_UPLOAD:ENC(y2ULx5rMyoEkGRc7cxgM3LLub9p/QhAcC8UYzid+/jQ=)}
-  domain: ${DOMAIN:ENC(eB83gdqYGxKJTTZc8ApYSSXrHFCAruE+cLYHuaBN7cg=)}
+  domain: ${DOMAIN:ENC(BKbRncXrpKcrF8FZFu1JcyNLP3t+xP8maYEsRPtbFPI=)}

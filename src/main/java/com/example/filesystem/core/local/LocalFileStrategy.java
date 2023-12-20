@@ -43,7 +43,7 @@ public class LocalFileStrategy extends FileStrategy {
         SingleFile singleFile = fileMapper.selectById(commonFileVO.getFileId());
         AbstractAssert.isNull(singleFile, StatusConstEnum.FILE_NOT_EXIT);
         String fileType = singleFile.getOriginName().split("\\.")[1];
-        return singleFile.getPath()+"/"+singleFile.getMd5()+"."+fileType;
+        return "www."+systemConfig.getDomain()+singleFile.getPath()+"/"+singleFile.getMd5()+"."+fileType;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class LocalFileStrategy extends FileStrategy {
                     .build();
             commonFileVO.getFile().transferTo(loacalFile);
             fileMapper.insert(file);
-            String url = path+filename;
+            String url = systemConfig.getDomain()+path+filename;
             return UploadFileVO.builder()
                     .fileId(String.valueOf(file.getId()))
                     .url(url)
