@@ -56,6 +56,7 @@ public class LocalFileStrategy extends FileStrategy {
         String path = saveFolder+prePath+formattedDate+"/";
         FileUtils.createFolderIfAbenset(path);
         String filename = commonFileVO.getMd5()+"."+fileType;
+        logger.info("savePath:%s",path);
         File loacalFile = new File(path,filename);
         try {
             SingleFile file = SingleFile.builder()
