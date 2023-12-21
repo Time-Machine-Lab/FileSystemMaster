@@ -1,5 +1,6 @@
 package com.example.filesystem.core.oss.aliyun;
 
+import com.alibaba.cloud.commons.lang.StringUtils;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSClientBuilder;
@@ -55,7 +56,6 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     private TransactionTemplate transactionTemplate;
     @Override
     public UploadFileVO uploadFile(OSSFileVO ossFileVO) {
-        String saveFolder = systemConfig.getUploadUrl().replace("\\","/");
         String path = ossFileVO.getPath().replace("\\","/");
         String fileType = FileUtils.getExtension(Objects.requireNonNull(ossFileVO.getFile().getOriginalFilename()));
         String[] endpoints = aliyunConfig.getEndpoints();
@@ -63,34 +63,40 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
         int bucketIndex = getBucketIndex(ossFileVO.getBucket());
         String uploadBucket;
         String uploadEndpoint;
-        saveFolder = saveFolder+path+FileUtils.getCurrentTimeUrl()+"/oss/";
-        FileUtils.createFolderIfAbenset(saveFolder);
         if(bucketIndex!=-1){
             uploadEndpoint = endpoints[bucketIndex];
             uploadBucket = buckets[bucketIndex];
         }else {
             throw new BaseException(StatusConstEnum.QUERY_BUCKET_ERROR);
         }
-        String fileName = ossFileVO.getMd5()+ "." + fileType;
-        File localFile = new File(saveFolder,fileName);
+        String fileName;
+        if(!StringUtils.isBlank(ossFileVO.getPath())){
+            fileName = ossFileVO.getPath()+"/" + ossFileVO.getMd5()+ "." + fileType;
+        }else {
+            fileName =  ossFileVO.getMd5()+ "." + fileType;
+            fileName = fileName.substring(1);
+        }
+        String uploadPath = fileName;
         SingleFile singleFile = new SingleFile();
         singleFile.setMd5(ossFileVO.getMd5());
         singleFile.setPath(ossFileVO.getPath());
         singleFile.setOriginName(ossFileVO.getFile().getOriginalFilename());
+        String accessKeyId =aliyunConfig.getAccessKeyId();
+        String accessKeySecret = aliyunConfig.getAccessKeySecret();
         transactionTemplate.execute(transactionStatus ->{
+            OSSClient ossClient = new OSSClient(uploadEndpoint, accessKeyId, accessKeySecret);
+            try {
+                ossClient.putObject(uploadBucket,uploadPath, ossFileVO.getFile().getInputStream());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             fileMapper.insert(singleFile);
             fileBucketMapper.insertFileBucketRelative(singleFile.getId().toString(),uploadBucket, CommonConstant.ALIYUN_OSS);
             return Boolean.TRUE;
         });
-        try {
-            ossFileVO.getFile().transferTo(localFile);
-            asyncService.asyncUpload(ossFileVO,uploadEndpoint,uploadBucket,ossFileVO.getFile().getInputStream());
-        } catch (IOException e) {
-            throw new BaseException(e.toString());
-        }
         return UploadFileVO.builder()
                 .fileId(String.valueOf(singleFile.getId()))
-                .url("https://" + uploadBucket + "." + uploadEndpoint + "/" + fileName)
+                .url("https://" + uploadBucket + "." + uploadEndpoint +"/"+uploadPath)
                 .build();
     }
 

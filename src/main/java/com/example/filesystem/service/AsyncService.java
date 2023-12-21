@@ -5,6 +5,7 @@ import com.example.filesystem.common.BaseException;
 import com.example.filesystem.core.oss.aliyun.AliyunConfig;
 import com.example.filesystem.pojo.StatusConstEnum;
 import com.example.filesystem.pojo.vo.OSSFileVO;
+import com.example.filesystem.util.FileUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @Description
@@ -29,7 +31,7 @@ public class AsyncService {
         String accessKeyId =aliyunConfig.getAccessKeyId();
         String accessKeySecret = aliyunConfig.getAccessKeySecret();
         String fileName = ossFileVO.getMd5();
-        String fileType = ossFileVO.getFile().getOriginalFilename().split("\\.")[1];
+        String fileType = FileUtils.getExtension(Objects.requireNonNull(ossFileVO.getFile().getOriginalFilename()));
         fileName = ossFileVO.getPath()+"/"+fileName+"."+fileType;
         OSSClient ossClient = new OSSClient(uploadEndpoint, accessKeyId, accessKeySecret);
         ossClient.putObject(uploadBucket,fileName, fileInputStream);

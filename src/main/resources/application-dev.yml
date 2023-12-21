@@ -39,7 +39,6 @@ spring:
         ip: ${SERVER_ADDR:ENC(Y5HcvI+7TfzJVRmAMpYDqR0bwJqzwMzdpQ8RCIr1y2w=)}
         namespace: 41325882-1160-44b1-a0b8-7d2ebb683d0e
         cluster-name: BJ
-
   application:
     name: rvc-file-service
   web:
