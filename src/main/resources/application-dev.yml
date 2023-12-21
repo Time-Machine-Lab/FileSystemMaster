@@ -5,7 +5,6 @@ spring:
       max-request-size: 1024MB
       enabled: true
       file-size-threshold: 5MB
-      location:
   mvc:
     static-path-pattern: /**
   datasource:

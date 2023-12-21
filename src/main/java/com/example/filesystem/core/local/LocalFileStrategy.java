@@ -54,7 +54,7 @@ public class LocalFileStrategy extends FileStrategy {
         String prePath = commonFileVO.getPath().replace("\\","/");
         FileUtils.isValidPath(prePath);
         String formattedDate = FileUtils.getCurrentTimeUrl();
-        String path = saveFolder+prePath+formattedDate+"/";
+        String path = saveFolder+formattedDate+"/"+prePath+"/";
         FileUtils.createFolderIfAbenset(path);
         String filename = commonFileVO.getMd5()+"."+fileType;
         logger.info("userDir:%s",System.getProperty("user.dir"));
