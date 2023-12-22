@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description
@@ -78,4 +79,10 @@ public class LocalFileStrategy extends FileStrategy {
             throw new BaseException(e.toString());
         }
     }
+
+    @Override
+    public <T extends CommonFileVO> List<UploadFileVO> upload(List<T> commonFileVOList) {
+        return null;
+    }
+
 }

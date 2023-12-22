@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description
@@ -38,6 +39,12 @@ public class OSSOperatorController {
     @PostMapping("/download")
     public Result<?> download(@Validated DownloadFileVO commonFileVO){
         String res = strategy.download(commonFileVO);
+        return Result.success(res);
+    }
+
+    @PostMapping("/upload/list")
+    public Result<?> upload(@Validated List<OSSFileVO> commonFileVO){
+        List<UploadFileVO> res = strategy.upload(commonFileVO);
         return Result.success(res);
     }
 }

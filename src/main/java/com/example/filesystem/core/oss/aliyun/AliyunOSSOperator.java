@@ -71,7 +71,7 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
         }
         String fileName;
         if(!StringUtils.isBlank(ossFileVO.getPath())){
-            fileName = ossFileVO.getPath()+"/" + ossFileVO.getMd5()+ "." + fileType;
+            fileName = path +"/" + ossFileVO.getMd5()+ "." + fileType;
         }else {
             fileName =  ossFileVO.getMd5()+ "." + fileType;
             fileName = fileName.substring(1);
