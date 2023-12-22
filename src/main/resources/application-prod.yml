@@ -64,3 +64,7 @@ file:
   #  uploadUrl: ${LINUX_UPLOAD_URL:ENC(bUsOhfap5GKW7FI6zs2H24hqrsRj+6+GMjeWDiymyi4=)}
   uploadUrl: ${LOCATION_UPLOAD:ENC(y2ULx5rMyoEkGRc7cxgM3LLub9p/QhAcC8UYzid+/jQ=)}
   domain: ${DOMAIN:ENC(BKbRncXrpKcrF8FZFu1JcyNLP3t+xP8maYEsRPtbFPI=)}
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    password: ${JASYPT_PASSWORD:}
