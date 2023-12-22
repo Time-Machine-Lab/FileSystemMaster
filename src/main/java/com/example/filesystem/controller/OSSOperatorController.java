@@ -42,6 +42,11 @@ public class OSSOperatorController {
         return Result.success(res);
     }
 
+    /*
+     * @description:
+     * @param: commonFileVO
+     * @return: Result<?>
+     **/
     @PostMapping("/upload/list")
     public Result<?> upload(@Validated List<OSSFileVO> commonFileVO){
         List<UploadFileVO> res = strategy.upload(commonFileVO);
