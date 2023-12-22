@@ -1,0 +1,72 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+      enabled: true
+      file-size-threshold: 5MB
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${MYSQL_URL:ENC(Q/mUDDQ+0TwZ+60p9l6jr/F2nN/93jltB6EvwDqxGR5r91clGxM6slm0dskGePCLbdSFU+3NYgN1A3sJVjTNvd7r2XJs8V6coHAg0F9fe42NS087BTdFgrZjYRW09b2vlMFxo7KBJUwv2qZO8Kfa5VvulLkoBP28jdJsNkHbCDw=)}
+    username: ${MYSQL_USERNAME:ENC(h4sx/sPEXk8MsDhsWNc1pwGRrxucMNqz)}
+    password: ${MYSQL_PASSWORD:ENC(pnc0ZWw3h49DWEJtygRU79rEw3ZBsvl0NYRTW9CuIPKQDydSRTHRYw==)}
+    redis:
+      host: ${REDIS_ADDR:ENC(gfVHUx9Q3MOobwxRYtxbvNuo0SeQBllfb7SLgEtm8ZY=)} # Redis服务器地址
+      database: 0 # Redis数据库索引（默认为0）
+      port: ${REDIS_PORT:ENC(lFAbKYtMOt5dctRhoYYeIdekCwPv5euR)} # Redis服务器连接端口
+      password: ${REDIS_PWD:ENC(g+DlVpnt76Ji9s86jd28sGrL+GMWgvWivTRehbesgrA=)} # Redis服务器连接密码（默认为空）
+      timeout: 3000ms # 连接超时时间（毫秒）
+    application:
+      name: rvc-file-service
+    cloud:
+      nacos:
+        server-addr: ${NACOS_SERVER_ADDR:ENC(VdzZDIUI6EP3mXnpOmb0l46RpSA5HlJgqy9/ZxU0Mx3U777m+o9J6Q==)}
+        username: ${NACOS_SERVER_USER:ENC(qqqHXA1bwhhYPJ9SXXZqyO5j//wygYDK)}
+        password: ${NACOS_SERVER_PASSWORD:ENC(v1J0g/bB0xWCi9Te8mwH1o309G9xtm6q1L8SeCkYdYY=)}
+        config:
+          file-extension: yaml
+          namespace: 9623bd6c-3483-4f9e-a40d-1d54e190eb9b
+        discovery:
+          ip: ${SERVER_ADDR:ENC(jZPMcqD9wkpa7UeNYw7+KV1LXmCpRp3/SjM1AHdHQ6s=)}
+          namespace: 9623bd6c-3483-4f9e-a40d-1d54e190eb9b
+          cluster-name: BJ
+    rabbitmq:
+      host: ${MQ_ADDR:ENC(jZPMcqD9wkpa7UeNYw7+KV1LXmCpRp3/SjM1AHdHQ6s=)} # rabbitMQ的ip地址
+      port: ${MQ_PORT:ENC(o4a1BoPYeYviHisCyAaRQJ9BRzQt7Yxp)} # 端口
+      username: ${MQ_USERNAME:ENC(h4sx/sPEXk8MsDhsWNc1pwGRrxucMNqz)}
+      password: ${MQ_PWD:ENC(pnc0ZWw3h49DWEJtygRU79rEw3ZBsvl0NYRTW9CuIPKQDydSRTHRYw==)}
+      virtual-host: /
+      publisher-confirm-type: simple
+      publisher-returns: true
+      listener:
+        simple:
+          prefetch: ${MQ_PREFETCH:5}
+          concurrency: ${MIN_CONCURRENCY:5}
+          max-concurrency: ${MAX_CONCURRENCY:10}
+          acknowledge-mode: manual
+      exchange-type: ${EXCHANGE_TYPE:ENC(WUANSPJwXgpu928eZLdjtHxqz08RemFd)}
+      pre-command: ${PRE_COMMAND:ENC(nRHKgZnkufKa8nZmJ6MsMjF26vxXrT7mRxmRgSqW6Gs=)}
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: '*'
+  application:
+    name: file-system-service${UNIQUE_ID:0}
+aliyun:
+  oss:
+    endpoint: ${ALIYUN_ENDPOINT:ENC(Nq/ROzXCH519HvbCkIsPkeWiC5gtYt62YZCv/B1bQ9CyWQXYWAFfv666Z+YlYoz4uCHT0aJsiOlu0dceHJH4GSJROM1ZG7/5)}
+    accessKeyId: ${ALIYUN_ACCESSKEYID:ENC(l0Fm2Kk2H3SuMqxBH51mYz0IYUnbQ5p0ZmfieytKx6YMh1TmqFmeTk1ExyT2blCR)}
+    accessKeySecret: ${ALIYUN_ACCESSKEYSECRET:ENC(ISX5rMzRdZHDDH5wsdMe0dwPTmkH2xSAm39iTUt695IXegXV+kdcpkeFOR6suHgb)}
+    bucket: ${ALIYUN_BUCKET:ENC(xjUC5boRO8KFBwSs6uq7IDk1ZlwMOZ5ORqxlHliziyQ=)}
+    bucket-private: ${BUCKET_PRIVATE:ENC(FhyRfhTLHOBYkWbGeOsUlAG3UD5EaiFG/YEfYyCGb50=)}
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    password: genius_serve_0704
+oss:
+  handler: ${OSSHandler:aliyun}
+file:
+  #  uploadUrl: ${LINUX_UPLOAD_URL:ENC(bUsOhfap5GKW7FI6zs2H24hqrsRj+6+GMjeWDiymyi4=)}
+  uploadUrl: ${LOCATION_UPLOAD:ENC(y2ULx5rMyoEkGRc7cxgM3LLub9p/QhAcC8UYzid+/jQ=)}
+  domain: ${DOMAIN:ENC(BKbRncXrpKcrF8FZFu1JcyNLP3t+xP8maYEsRPtbFPI=)}
