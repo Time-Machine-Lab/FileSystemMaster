@@ -51,8 +51,6 @@ spring:
       web:
         exposure:
           include: '*'
-  application:
-    name: file-system-service${UNIQUE_ID:0}
 aliyun:
   oss:
     endpoint: ${ALIYUN_ENDPOINT:ENC(Nq/ROzXCH519HvbCkIsPkeWiC5gtYt62YZCv/B1bQ9CyWQXYWAFfv666Z+YlYoz4uCHT0aJsiOlu0dceHJH4GSJROM1ZG7/5)}
