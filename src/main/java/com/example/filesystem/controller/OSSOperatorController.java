@@ -51,18 +51,18 @@ public class OSSOperatorController {
     }
 
     @PostMapping("/upload/list")
-    public Result<?> upload(@RequestParam("file") MultipartFile[] files, String[] md5List, String[] pathList, String bucket){
+    public Result<?> upload(@RequestParam("file") MultipartFile[] files, List<String> md5List, List<String> pathList, String bucket){
         ArrayList<UploadFileVO> res = new ArrayList<>();
         OSSFileVO ossFileVO = new OSSFileVO();
-        logger.info("%s,%s,%s,%s",files, Arrays.toString(md5List), Arrays.toString(pathList),bucket);
+        logger.info("%s,%s,%s,%s",files, md5List.toArray(), pathList.toArray(),bucket);
         ossFileVO.setFile(files[0]);
-        ossFileVO.setPath(pathList[0]);
-        ossFileVO.setMd5(md5List[0]);
+        ossFileVO.setPath(pathList.get(0));
+        ossFileVO.setMd5(md5List.get(0));
         ossFileVO.setBucket(bucket);
         Callable<UploadFileVO> file1 = ()->strategy.upload(ossFileVO);
         ossFileVO.setFile(files[1]);
-        ossFileVO.setPath(pathList[1]);
-        ossFileVO.setMd5(md5List[1]);
+        ossFileVO.setPath(pathList.get(0));
+        ossFileVO.setMd5(md5List.get(0));
         Callable<UploadFileVO> file2 = ()->strategy.upload(ossFileVO);
 
         Future<UploadFileVO> res1 = ConcurrentUtil.doJob(executorService, file1);
