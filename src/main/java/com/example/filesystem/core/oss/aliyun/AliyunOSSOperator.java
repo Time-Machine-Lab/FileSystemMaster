@@ -22,13 +22,10 @@ import com.example.filesystem.pojo.vo.UploadFileVO;
 import com.example.filesystem.service.AsyncService;
 import com.example.filesystem.util.FileUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.Objects;
 
