@@ -76,7 +76,7 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
         String accessKeyId =aliyunConfig.getAccessKeyId();
         String accessKeySecret = aliyunConfig.getAccessKeySecret();
         transactionTemplate.execute(transactionStatus ->{
-            logger.info("上传文件名:%s,文件大小:%s",ossFileVO.getFile().getName(),ossFileVO.getFile().getSize());
+            logger.info("上传文件名:%s,文件大小:%s",ossFileVO.getFile().getOriginalFilename(),ossFileVO.getFile().getSize());
             OSSClient ossClient = new OSSClient(uploadEndpoint, accessKeyId, accessKeySecret);
             try {
                 ossClient.putObject(uploadBucket,uploadPath, ossFileVO.getFile().getInputStream());
