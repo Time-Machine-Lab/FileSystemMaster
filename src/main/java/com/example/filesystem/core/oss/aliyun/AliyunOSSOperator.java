@@ -19,7 +19,6 @@ import com.example.filesystem.pojo.StatusConstEnum;
 import com.example.filesystem.pojo.vo.DownloadFileVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
 import com.example.filesystem.pojo.vo.UploadFileVO;
-import com.example.filesystem.service.AsyncService;
 import com.example.filesystem.util.FileUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
