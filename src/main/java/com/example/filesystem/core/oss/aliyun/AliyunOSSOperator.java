@@ -83,10 +83,12 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            logger.info("文件上传成功");
             fileMapper.insert(singleFile);
             fileBucketMapper.insertFileBucketRelative(singleFile.getId().toString(),uploadBucket, CommonConstant.ALIYUN_OSS);
             return Boolean.TRUE;
         });
+
         return UploadFileVO.builder()
                 .fileId(String.valueOf(singleFile.getId()))
                 .url("https://" + uploadBucket + "." + uploadEndpoint +"/"+uploadPath)

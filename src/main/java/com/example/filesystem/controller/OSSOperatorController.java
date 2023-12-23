@@ -61,14 +61,14 @@ public class OSSOperatorController {
         ossFileVO.setMd5(md5List.get(0));
         ossFileVO.setBucket(bucket);
         Callable<UploadFileVO> file1 = ()->strategy.upload(ossFileVO);
-        ossFileVO.setFile(files[1]);
-        ossFileVO.setPath(pathList.get(0));
-        ossFileVO.setMd5(md5List.get(0));
-        Callable<UploadFileVO> file2 = ()->strategy.upload(ossFileVO);
-
+        OSSFileVO ossFileVO1 = new OSSFileVO();
+        ossFileVO1.setFile(files[1]);
+        ossFileVO1.setPath(pathList.get(1));
+        ossFileVO1.setMd5(md5List.get(1));
+        ossFileVO1.setBucket(bucket);
+        Callable<UploadFileVO> file2 = ()->strategy.upload(ossFileVO1);
         Future<UploadFileVO> res1 = ConcurrentUtil.doJob(executorService, file1);
         Future<UploadFileVO> res2 = ConcurrentUtil.doJob(executorService, file2);
-
         res.add(ConcurrentUtil.futureGet(res1));
         res.add(ConcurrentUtil.futureGet(res2));
         return Result.success(res);
