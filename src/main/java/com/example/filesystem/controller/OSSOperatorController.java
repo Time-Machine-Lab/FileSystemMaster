@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -73,6 +74,7 @@ public class OSSOperatorController {
         Future<UploadFileVO> res2 = ConcurrentUtil.doJob(executorService, file2);
         res.add(ConcurrentUtil.futureGet(res1));
         res.add(ConcurrentUtil.futureGet(res2));
+        logger.info(Arrays.toString(res.toArray()));
         return Result.success(res);
     }
 }
