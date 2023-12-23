@@ -45,13 +45,9 @@ public class AliyunOSSOperator implements OSSFileOperatorInterface {
     @Resource
     AliyunConfig aliyunConfig;
     @Resource
-    SystemConfig systemConfig;
-    @Resource
     FileMapper fileMapper;
     @Resource
     FileBucketMapper fileBucketMapper;
-    @Resource
-    AsyncService asyncService;
     @Resource
     private TransactionTemplate transactionTemplate;
     @Override
