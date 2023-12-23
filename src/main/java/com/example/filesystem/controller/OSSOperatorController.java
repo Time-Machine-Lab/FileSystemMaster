@@ -9,14 +9,12 @@ import com.example.filesystem.pojo.vo.UploadFileVO;
 import com.example.filesystem.util.ConcurrentUtil;
 import org.apache.tomcat.jni.OS;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -53,10 +51,10 @@ public class OSSOperatorController {
     }
 
     @PostMapping("/upload/list")
-    public Result<?> upload(MultipartFile[] files,String[] md5List,String[] pathList,String bucket){
+    public Result<?> upload(@RequestParam("file") MultipartFile[] files, String[] md5List, String[] pathList, String bucket){
         ArrayList<UploadFileVO> res = new ArrayList<>();
         OSSFileVO ossFileVO = new OSSFileVO();
-        logger.info("%s,%s,%s,%s",files,md5List,pathList,bucket);
+        logger.info("%s,%s,%s,%s",files, Arrays.toString(md5List), Arrays.toString(pathList),bucket);
         ossFileVO.setFile(files[0]);
         ossFileVO.setPath(pathList[0]);
         ossFileVO.setMd5(md5List[0]);
