@@ -55,7 +55,9 @@ public class OSSOperatorController {
                             @RequestParam("bucket") String bucket){
         ArrayList<UploadFileVO> res = new ArrayList<>();
         OSSFileVO ossFileVO = new OSSFileVO();
-        logger.info("文件长度:%s,文件1：%s,文件2：%s",files.size(),files.get(0).getOriginalFilename(),files.get(1).getOriginalFilename());
+        logger.info("文件长度:%s,文件1：%s,文件2：%s",files.size(),
+                files.get(0).getOriginalFilename(),
+                files.get(1).getOriginalFilename());
         ossFileVO.setFile(files.get(0));
         ossFileVO.setPath(pathList.get(0));
         ossFileVO.setMd5(md5List.get(0));
