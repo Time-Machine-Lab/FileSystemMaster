@@ -1,6 +1,7 @@
 package com.example.filesystem.controller;
 
 import com.example.filesystem.common.Result;
+import com.example.filesystem.common.log.AbstractLogger;
 import com.example.filesystem.core.oss.AbstractOSSFileStrategy;
 import com.example.filesystem.pojo.vo.DownloadFileVO;
 import com.example.filesystem.pojo.vo.OSSFileVO;
@@ -34,6 +35,8 @@ public class OSSOperatorController {
 
     @Resource
     AbstractOSSFileStrategy strategy;
+    @Resource
+    AbstractLogger logger;
 
     private static final ExecutorService executorService = Executors.newFixedThreadPool(50);
 
@@ -53,6 +56,7 @@ public class OSSOperatorController {
     public Result<?> upload(MultipartFile[] files,String[] md5List,String[] pathList,String bucket){
         ArrayList<UploadFileVO> res = new ArrayList<>();
         OSSFileVO ossFileVO = new OSSFileVO();
+        logger.info("%s,%s,%s,%s",files,md5List,pathList,bucket);
         ossFileVO.setFile(files[0]);
         ossFileVO.setPath(pathList[0]);
         ossFileVO.setMd5(md5List[0]);
