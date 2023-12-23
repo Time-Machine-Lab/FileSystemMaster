@@ -19,4 +19,5 @@ public class OSSFileVO extends CommonFileVO{
 
     @NotBlank(message = "bucket不能为空")
     private String bucket;
+
 }
