@@ -30,9 +30,7 @@ public class OSSOperatorController {
 
     @PostMapping("/upload")
     public Result<?> upload(@Validated OSSFileVO commonFileVO){
-        long st = new Date(System.currentTimeMillis()).getTime();
         UploadFileVO res = strategy.upload(commonFileVO);
-        System.out.println("总耗时:"+(new Date(System.currentTimeMillis()).getTime()-st));
         return Result.success(res);
     }
 

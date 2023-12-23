@@ -34,8 +34,7 @@ public class AbstractOSSFileStrategy extends FileStrategy{
 
     @Override
     public <T extends CommonFileVO> UploadFileVO upload(T commonFileVO) {
-        UploadFileVO uploadFileVO = ossOperator.uploadFile((OSSFileVO) commonFileVO);
-        return uploadFileVO;
+        return ossOperator.uploadFile((OSSFileVO) commonFileVO);
     }
 
     @Override
