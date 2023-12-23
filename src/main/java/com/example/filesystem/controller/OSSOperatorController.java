@@ -51,10 +51,13 @@ public class OSSOperatorController {
     }
 
     @PostMapping("/upload/list")
-    public Result<?> upload(@RequestParam("file") MultipartFile[] files, List<String> md5List, List<String> pathList, String bucket){
+    public Result<?> upload(@RequestParam("file") MultipartFile[] files,
+                            @RequestParam("md5List") List<String> md5List,
+                            @RequestParam("pathList") List<String> pathList,
+                            @RequestParam("bucket") String bucket){
         ArrayList<UploadFileVO> res = new ArrayList<>();
         OSSFileVO ossFileVO = new OSSFileVO();
-        logger.info("%s,%s,%s,%s",files, md5List.toArray(), pathList.toArray(),bucket);
+        logger.info("文件信息:%s,%s,%s,%s",files, md5List.toArray(), pathList.toArray(),bucket);
         ossFileVO.setFile(files[0]);
         ossFileVO.setPath(pathList.get(0));
         ossFileVO.setMd5(md5List.get(0));
