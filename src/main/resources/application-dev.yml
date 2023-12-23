@@ -36,7 +36,7 @@ spring:
         file-extension: yaml
         namespace: 98732302-bf12-40a5-8d93-7f2d97187a12
       discovery:
-        ip: ${SERVER_ADDR:ENC(Y5HcvI+7TfzJVRmAMpYDqR0bwJqzwMzdpQ8RCIr1y2w=)}
+        ip: ${SERVER_ADDR:ENC(htbNWaVdNEgZe1O3FneFPYME3Jy0ozr8+bKr8LZ2Pws=)}
         namespace: 98732302-bf12-40a5-8d93-7f2d97187a12
         cluster-name: BJ
   application:
