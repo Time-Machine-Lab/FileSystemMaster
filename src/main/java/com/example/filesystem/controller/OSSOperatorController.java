@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -54,6 +55,7 @@ public class OSSOperatorController {
                             @RequestParam("md5List") List<String> md5List,
                             @RequestParam("pathList") List<String> pathList,
                             @RequestParam("bucket") String bucket){
+        long st = new Date(System.currentTimeMillis()).getTime();
         ArrayList<UploadFileVO> res = new ArrayList<>();
         OSSFileVO ossFileVO = new OSSFileVO();
         logger.info("数量:%s,文件1：%s,文件2：%s",files.size(),
@@ -75,6 +77,7 @@ public class OSSOperatorController {
         res.add(ConcurrentUtil.futureGet(res1));
         res.add(ConcurrentUtil.futureGet(res2));
         logger.info(Arrays.toString(res.toArray()));
+        logger.info("接口总耗时:"+(new Date(System.currentTimeMillis()).getTime()-st));
         return Result.success(res);
     }
 }
